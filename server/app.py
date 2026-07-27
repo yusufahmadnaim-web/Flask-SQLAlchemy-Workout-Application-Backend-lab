@@ -86,8 +86,15 @@ def create_exercise():
 
 @app.route("/exercises/<int:id>", methods=["DELETE"])
 def delete_exercise(id):
-    return {"message": f"Delete exercise {id}"}
+    exercise = db.session.get(Exercise, id)
 
+    if not exercise:
+        return {"error": "Exercise not found"}, 404
+
+    db.session.delete(exercise)
+    db.session.commit()
+
+    return {"message": "Exercise deleted successfully"}, 200
 
 @app.route(
     "/workouts/<int:workout_id>/exercises/<int:exercise_id>/workout_exercises",
