@@ -57,8 +57,14 @@ def get_exercises():
 
 @app.route("/exercises/<int:id>", methods=["GET"])
 def get_exercise(id):
-    return {"message": f"Show exercise {id}"}
+    exercise = db.session.get(Exercise, id)
 
+    if not exercise:
+        return {"error": "Exercise not found"}, 404
+
+    schema = ExerciseSchema()
+
+    return schema.dump(exercise), 200
 
 @app.route("/exercises", methods=["POST"])
 def create_exercise():
