@@ -1,6 +1,9 @@
 from flask import Flask, make_response
 from flask_migrate import Migrate
 
+from models import db, Exercise, Workout, WorkoutExercise
+from schemas import ExerciseSchema, WorkoutSchema, WorkoutExerciseSchema
+
 from models import db
 
 app = Flask(__name__)
