@@ -21,8 +21,14 @@ def get_workouts():
 
 @app.route("/workouts/<int:id>", methods=["GET"])
 def get_workout(id):
-    return {"message": f"Show workout {id}"}
+    workout = db.session.get(Workout, id)
 
+    if not workout:
+        return {"error": "Workout not found"}, 404
+
+    schema = WorkoutSchema()
+
+    return schema.dump(workout), 200
 
 @app.route("/workouts", methods=["POST"])
 def create_workout():
